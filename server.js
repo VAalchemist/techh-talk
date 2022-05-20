@@ -1,15 +1,15 @@
+const path = require('path');
 const express = require('express');
 const session = require('express-session');
-const path = require('path');
 const exphbs = require('express-handlebars');
 
 const app = express();
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 3000;
 
-const sequelize = require("./config.connection");
-const SequelizeStore = require('connect-session-sequelize');
+const sequelize = require("./config/connection");
+const SequelizeStore = require('connect-session-sequelize')(session.Store);
 
-const shh = {
+const sess = {
   secret: 'Super duper secret',
   cookie: {},
   resave: false,
@@ -19,9 +19,10 @@ const shh = {
   })
 };
 
-app.use(session(shh));
+app.use(session(sess));
 
 const helpers = require('./utils/helpers');
+
 const hbs = exphbs.create({ helpers });
 
 app.engine('handlebars', hbs.engine);
@@ -33,6 +34,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(require('./controllers/'));
 
-sequelize.sync({ forcer: false }).then(() => {
-  app.listen(PORT, () => console.log('We out here on PORT 3001!'));
+sequelize.sync({ force: true }).then(() => {
+  app.listen(PORT, () => console.log('We out here on http://localhost:3000/'));
 });
