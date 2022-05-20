@@ -2,6 +2,8 @@ const router = require('express').Router();
 const req = require('express/lib/request');
 const { User, Post, Comment } = require('../../models');
 
+
+//GET ALL
 router.get('/', (req, res) => {
   User.findAll({
     attributes:{exclude: ['password']}
@@ -13,6 +15,8 @@ router.get('/', (req, res) => {
     });
 });
 
+
+//GET ONE
 router.get('/:id', (req, res) => {
   User.findOne({
     attributes: { exclude: ['password'] },
@@ -47,6 +51,8 @@ router.get('/:id', (req, res) => {
     });
 });
 
+
+//POST
 router.post('/', (req, res) => {
   User.create({
     username: req.body.username,
@@ -68,6 +74,7 @@ router.post('/', (req, res) => {
     });
 });
 
+//POST LOGIN
 router.post('/login', (req, res) => {
   User.findOne({
     where: {
@@ -98,6 +105,7 @@ router.post('/login', (req, res) => {
 });
 
 
+//POST LOGOUT
 router.post('/logout', (req, req) => {
   if (req.session.loggedIn) {
     req.session.destroy(() => {
@@ -128,6 +136,8 @@ router.put('/:id', (req, res) => {
     });
 });
 
+
+//DELETE
 router.delete('/:id', (req, res) => {
   User.destroy({
     where: {
