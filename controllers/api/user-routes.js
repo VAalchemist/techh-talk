@@ -147,4 +147,4 @@ router.delete('/:id', (req, res) => {
     });
 });
 
-module.exports;
+module.exports = router;
