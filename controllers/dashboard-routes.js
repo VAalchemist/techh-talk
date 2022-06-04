@@ -6,15 +6,14 @@ const withAuth = require('../utils/auth');
 
 router.get('/', withAuth, (req, res) => {
   console.log(req.session);
-  console.log('======================');
   Post.findAll({
     where: {
       user_id: req.session.user_id
     },
     attributes: [
       'id',
-      'post_url',
       'title',
+      'content',
       'created_at'
     ],
     include: [
@@ -43,11 +42,11 @@ router.get('/', withAuth, (req, res) => {
 });
 
 router.get('/edit/:id', withAuth, (req, res) => {
-  Post.findByPk(req.params.id, {
+  Post.findOne(req.params.id, {
     attributes: [
       'id',
-      'post_url',
       'title',
+      'content',
       'created_at'
     ],
     include: [
@@ -66,20 +65,33 @@ router.get('/edit/:id', withAuth, (req, res) => {
     ]
   })
     .then(dbPostData => {
-      if (dbPostData) {
-        const post = dbPostData.get({ plain: true });
-        
-        res.render('edit-post', {
-          post,
-          loggedIn: true
+      if (!dbPostData) {
+        res.status(404).json({
+          message: 'No post found with this id'
         });
-      } else {
-        res.status(404).end();
+        return;
       }
-    })
-    .catch(err => {
-      res.status(500).json(err);
-    });
+
+      const post = dbPostData.get({
+                plain: true
+      });
+      
+      res.render('edit-post', {
+                post,
+                loggedIn: true
+            });
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).json(err);
+        });
+});
+
+
+router.get('/new', (req, res) => {
+  res.render('add-post', {
+    loggedIn: true
+  })
 });
 
 module.exports = router;
