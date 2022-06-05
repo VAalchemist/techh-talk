@@ -13,12 +13,12 @@
 <header class="border-2 border-black p-4 flex items-center justify-between">
   <h1><a href="/">Let's Talk Tech</a></h1>
 
-  <nav class="border-2 grid grid-cols-3 gap-4">
+  <nav class="border-2 flex justify-center items-center px-4 ">
     {{#if loggedIn}}
     <a href="/home">Home</a>
     <button id="logout">Logout</button>
     {{else}}
-    <a href="/login">Login</a>
+    <a class="text-green-600 text-bold" href="/login">Login</a>
     {{/if}}
   </nav>
 </header>
@@ -27,7 +27,9 @@
   {{{body}}}
 </main>
 
-
+{{#if loggedIn}}
+  <script src="/javascript/logout.js"></script>
+{{/if}}
   
 </body>
 </html>
