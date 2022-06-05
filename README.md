@@ -35,5 +35,35 @@
 
 # Contact
 <a href="https://github.com/VAalchemist">Github</a>
+* [Deployed Page](#deployed-page)
+* [Photos](#photos)
+* [Installation](#installation)
+* [Contact](#contact)
+* [Packages Used](#packages-used)
+
+
+# Deployed Page
+<a href="https://techh-talk.herokuapp.com/">Techh Talk</a> 
+
+# Photos
+![]()
+![]()
+
+
+# Packages Used
+  * Node.js
+  * bcrypt
+  * connect-session-sequelize
+  * dotenv
+  * express
+  * express-handlebars
+  * express-session
+  * mysql2
+  * sequelize
+ 
+# Contact
+<a href="https://github.com/VAalchemist">Github: VAalchemist</a><br>
+
+
 
 [Return to top](#techh-talk)
