@@ -2,14 +2,20 @@
   <button type="submit" id="create-post">Talk About It!</button>
 </section>
 
+
+{{#if posts.length}}
 <section>
   <h2>Your Posts</h2>
 
   <ul>
+    {{#each posts as |post|}}
     <li>
-      <a href="/">Edit Post</a>
+      {{> post-info post}}
+      <a href="/dashboard/edit/{{post.id}}">Edit Post</a>
     </li>
+    {{/each}}
   </ul>
 </section>
+{{/if}}
 
 <script src="/public/js/create-post.js"></script>
