@@ -57,3 +57,4 @@ $RECYCLE.BIN/
 *.lnk
 
 node_modules
+.env
