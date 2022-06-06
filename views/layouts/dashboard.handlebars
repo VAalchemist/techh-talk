@@ -9,28 +9,29 @@
   <title>Techh Talk</title>
 </head>
 
-
 <body>
-<header class="border-2 border-black p-4 flex items-center justify-between">
-  <h1><a href="/">Let's Talk Tech</a></h1>
+  
 
-  <nav class="border-2 flex justify-center items-center px-4 gap-2">
-
+  <nav class="border-2 border-black p-4 flex items-center justify-between justify-center px-4 gap-2">    
+    <h1><a href="/">Let's Talk Tech</a></h1>
     {{!-- {{#if loggedIn}} --}}
     <a class="text-green-600 text-bold" href="/">Home</a>
     <a class="text-green-600 text-bold" href="/dashboard">Dashboard</a>
-    <a class="text-green-600 text-bold" href="#" id="log-out">Logout</a>
-    {{!-- {{else}} --}}
-    <a class="text-green-600 text-bold" href="/login">Login</a>
-    {{!-- {{/if}} --}}
-    
+    <a class="text-green-600 text-bold" href="#" id="log-out">Logout</a>    
   </nav>
+<header class="">
+    <h1><a href="/dashboard" class="border-4 p-2">Your Dashboard</a></h1>
+  
 </header>
 
 <main class="border-4 border-red-500">
   {{{body}}}
 </main>
 
+<footer>
+  <a href="/dashboard/new">Write About It</a>
+</footer>
+
+<script src="/public/js/logout.js"></script>
 </body>
 </html>
-<script src="/public/js/logout.js"></script> 
