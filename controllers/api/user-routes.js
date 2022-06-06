@@ -1,4 +1,5 @@
 const router = require('express').Router();
+const req = require('express/lib/request');
 const { User } = require('../../models');
 
 
@@ -24,40 +25,58 @@ router.post('/', (req, res) => {
     });
 });
 
-// Get all users
-router.get('/', (req, res) => {
-  User.findAll({
-    attributes:{exclude: ['password']}
+
+// Get user by id
+router.get('/login', (req, res) => {
+  User.findOne({
+    where: {
+      username: req.body.username
+    }
   })
-    .then(dbUserData => res.json(dbUserData))
-    .catch(err => {
-      console.log(err);
-      res.status(500).json(err);
-    });
+    .then(dbUserData => {
+      if (!dbUserData) {
+        res.status(404).json({ message: 'No user found this account' });
+        return;
+      }
+      
+      const validPassword = dbUserData.checkPassword(req.body.password);
+
+      if (!validPassword) {
+        res.status(404).json({ message: 'Not valid password' });
+        return;
+      }
+
+      req.session.save(() => {
+        req.session.userId = dbUserData.id;
+        req.session.username = dbUserData.username;
+        req.session.loggedIn = true;
+
+        res.json({ user: dbUserData, message: 'You logged in' });
+      });
+    });  
 });
 
 
-// Get user by id
-router.get('/:id', (req, res) => {
-  User.findOne({
-    attributes: { exclude: ['password'] },
+//Logout
+
+router.post('/logout', (req, res) => {
+  if (req.session.loggedIn) {
+    req.session.destroy(() => {
+      res.status(204).json({ message: 'You logged out' }).end();
+    });
+  }
+  else {
+    res.status(400).end();
+
+  }
+});
+
+//DELETE user
+router.delete('/user/:id', (req, res) => {
+  User.destroy({
     where: {
       id: req.params.id
-    },
-    include: [
-      {
-        model: Post,
-        attributes: ['id', 'title', 'post_url', 'created_at']
-      },
-      {
-        model: Comment,
-        attributes: ['id', 'comment_text', 'created_at'],
-        include: {
-          model: Post,
-          attributes: ['title']
-        }
-      }
-    ]
+    }
   })
     .then(dbUserData => {
       if (!dbUserData) {
@@ -70,50 +89,6 @@ router.get('/:id', (req, res) => {
       console.log(err);
       res.status(500).json(err);
     });
-});
-
-
-
-
-//POST LOGIN
-router.post('/login', (req, res) => {
-  User.findOne({
-    where: {
-      username: req.body.username
-    }
-  })
-    .then(dbUserData => {
-      if (!dbUserData) {
-        res.status(400).json({ message: 'No user with that username!' });
-        return;
-      }
-
-      const validPassword = dbUserData.checkPassword(req.body.password);
-
-      if (!validPassword) {
-        res.status(400).json({ message: 'Not a valid password!' });
-        return;
-      }
-
-      req.session.save(() => {
-        req.session.user_id = dbUserData.id;
-        req.session.username = dbUserData.username;
-        req.session.loggedIn = true;
-
-        res.json({ user: dbUserData, message: "You are no logged in" });
-      });
-    });
-});
-
-
-router.post('/logout', (req, res) => {
-  if (req.session.loggedIn) {
-    req.session.destroy(() => {
-      req.status(204).end();
-    });
-  } else {
-    req.status(404).end();
-  }
 });
 
 module.exports = router;
