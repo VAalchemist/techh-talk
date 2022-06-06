@@ -1,15 +1,15 @@
-const router = require('express').Router();
-const { Post, User, Comment } = require('../models');
+const router = require("express").Router();
+const { Post, User, Comment } = require("../models");
 
 //GET all posts
-router.get('/', (req, res) => {
+router.get("/", (req, res) => {
   Post.findAll({
     include: [User]
   })
     .then(dbPostData => {
       const posts = dbPostData.map(post => post.get({ plain: true }));
 
-      res.render('all-posts', {
+      res.render("all-posts", {
         posts,
         loggedIn: req.session.loggedIn
       });
@@ -21,7 +21,7 @@ router.get('/', (req, res) => {
 });
 
 //GET single post
-router.get('/post/:id', (req, res) => { 
+router.get("/post/:id", (req, res) => { 
   Post.findByPk(req.params.id, {
     include: [
       User,
@@ -45,22 +45,22 @@ router.get('/post/:id', (req, res) => {
     });
 });
 
-router.get('/login', (req, res) => {
+router.get("/login", (req, res) => {
   if (req.session.loggedIn) {
-    res.redirect('/');
+    res.redirect("/");
     return;
   }
 
-  res.render('login');
+  res.render("login");
 });
 
-router.get('/signup', (req, res) => {
+router.get("/signup", (req, res) => {
   if (req.session.loggedIn) {
-    res.redirect('/');
+    res.redirect("/");
     return;
   }
 
-  res.render('signup');
+  res.render("signup");
 });
 
 module.exports = router;
