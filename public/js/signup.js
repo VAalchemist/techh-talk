@@ -12,11 +12,11 @@ const signupFormHandler = async function (event) {
     }),
     headers: { "Content-Type": "application/json" }
   })
-  .then(function() {
+    .then(function () {
       document.location.replace("/dashboard");
-  })
-  .catch(err => console.log(err));
-} 
+    })
+    .catch(err => console.log(err));
+}; 
 
 document
   .querySelector("#signup-form")
