@@ -1,83 +1,110 @@
-const router = require("express").Router();
-const { Post, User, Comments } = require("../models");
+const router = require('express').Router();
+const sequelize = require('../config/connection');
+const { Post, User, Comment } = require('../models');
 
-//GET all posts
-// router.get("/", (req, res) => {
-//   Post.findAll({
-//     attributes: [
-//       'id',
-//       'title',
-//       'createdAt'
-//     ],
-//     include: [{
-//       model: Comments,
-//       attributes: ['id', 'commentText', 'postId', 'userId', 'createdAt'],
-//       include: {
-//         model: User,
-//         attributes: ['username']
-//       }
-//     },
-//       {
-//         model: User,
-//         attributes: ['username']
-//       }
-//     ]
-//   })
-//     .then((dbPostData) => {
-//       const posts = dbPostData.map((post) => post.get({ plain: true }));
+// get all posts for homepage
+router.get('/', (req, res) => {
+  console.log('======================');
+  Post.findAll({
+    attributes: [
+      'id',
+      'post_text',
+      'title',
+      'created_at',
+      [sequelize.literal('(SELECT COUNT(*) FROM vote WHERE post.id = vote.post_id)'), 'vote_count']
+    ],
+    include: [
+      {
+        model: Comment,
+        attributes: ['id', 'comment_text', 'post_id', 'user_id', 'created_at'],
+        include: {
+          model: User,
+          attributes: ['username']
+        }
+      },
+      {
+        model: User,
+        attributes: ['username']
+      }
+    ]
+  })
+    .then(dbPostData => {
+      const posts = dbPostData.map(post => post.get({ plain: true }));
 
-//       res.render("all-posts", {
-//         posts,
-//         loggedIn: req.session.loggedIn
-//       });
-//     })
-//     .catch(err => {
-//       console.log(err);
-//       res.status(500).json(err);
-//     });
-// });
+      res.render('homepage', {
+        posts,
+        loggedIn: req.session.loggedIn
+      });
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).json(err);
+    });
+});
 
-//GET single post
-// router.get("/post/:id", (req, res) => { 
-//   Post.findByPk(req.params.id, {
-//     include: [
-//       User,
-//       {
-//         model: Comments,
-//         include: [User]
-//       },
-//     ],
-//   })
-//     .then((dbPostData) => {
-//       if (dbPostData) {
-//         const post = dbPostData.get({ plain: true });
+// get single post
+router.get('/post/:id', (req, res) => {
+  Post.findOne({
+    where: {
+      id: req.params.id
+    },
+    attributes: [
+      'id',
+      'post_text',
+      'title',
+      'created_at',
+      [sequelize.literal('(SELECT COUNT(*) FROM vote WHERE post.id = vote.post_id)'), 'vote_count']
+    ],
+    include: [
+      {
+        model: Comment,
+        attributes: ['id', 'comment_text', 'post_id', 'user_id', 'created_at'],
+        include: {
+          model: User,
+          attributes: ['username']
+        }
+      },
+      {
+        model: User,
+        attributes: ['username']
+      }
+    ]
+  })
+    .then(dbPostData => {
+      if (!dbPostData) {
+        res.status(404).json({ message: 'No post found with this id' });
+        return;
+      }
 
-//         res.render("single-post", { post });
-//       } else {
-//         res.status(404).end();
-//       }
-//     })
-//     .catch((err) => {
-//       res.status(500).json(err);
-//     });
-// });
+      const post = dbPostData.get({ plain: true });
 
-// router.get("/login", (req, res) => {
-//   if (req.session.loggedIn) {
-//     res.redirect("/");
-//     return;
-//   }
+      res.render('single-post', {
+        post,
+        loggedIn: req.session.loggedIn
+      });
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).json(err);
+    });
+});
 
-//   res.render("login");
-// });
+router.get('/login', (req, res) => {
+  if (req.session.loggedIn) {
+    res.redirect('/');
+    return;
+  }
 
-// router.get("/signup", (req, res) => {
-//   if (req.session.loggedIn) {
-//     res.redirect("/");
-//     return;
-//   }
+  res.render('login');
+});
 
-//   res.render("signup");
-// });
 
+router.get('/signup', (req, res) => {
+  if (req.session.loggedIn) {
+    res.redirect('/');
+    return;
+  }
+
+  res.render('signup');
+});
 module.exports = router;
