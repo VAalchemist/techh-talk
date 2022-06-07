@@ -1,4 +1,5 @@
 const path = require('path');
+const logger = require('morgan');
 const express = require('express');
 const session = require('express-session');
 const exphbs = require('express-handlebars');
@@ -29,6 +30,8 @@ const hbs = exphbs.create({ helpers });
 app.engine('handlebars', hbs.engine);
 app.set('view engine', 'handlebars');
 
+//morgan
+app.use(logger('dev'));
 
 // Express middleware
 app.use(express.json());
