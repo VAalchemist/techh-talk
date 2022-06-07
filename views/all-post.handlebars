@@ -1,21 +1,17 @@
-<a href="/dashboard">Home</a>
-
+<div class="posts">
+  {{#each posts}}
 <section>
 
-<h2>Talk About It</h2>
+<div>
+<h2><a href="/posts/{{id}}">{{title}}</a></h2>
 
-<form class="new-post-form">
-  <label class="post-title"></label>
-  <input type="text" name="post-title" id="post-title" />
-</form>
+<p>
+  Created by {{User.username}} on {{format_date createdAt}}
+</p>
+</div>
 
-<form class="new-post-form">
-  <label class="post-content"></label>
-  <textarea type="text" name="post-content" id="post-content" ></textarea>
-</form>
-
-<button type="submit">Add Post</button>
+<div>{{body}}</div>
 
 </section>
-
-<script src="/javascript/add-post.js"></script>
+  {{/each}}
+</div>
