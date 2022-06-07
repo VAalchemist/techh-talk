@@ -1,34 +1,21 @@
-<div class="psot">
-<section>
+{{> post-info post}}
 
-  <h2>{{post.title}}</h2>
+{{#if loggedIn}}
+<form>
   <div>
-    <p>Posted By {{post.User.username}} on {{format_date post.createdAt}}</p>
-    <p>{{post.body}}</p>
+    <textarea name="comment-body"></textarea>
   </div>
 
-</section>
-
-{{#if post.Comments}}
-<section>
-  <h3>Comments</h3>
   <div>
-    {{#each post.Comments}}
-    <p>{{body}}</p>
-    <p>{{User.username}}, {{format_date createdAt}}</p>
+    <button type="submit">Comment</button>
+    <button type="button">Vote!</button>
   </div>
-    {{/each}}
-</section>
+</form>
 {{/if}}
 
-<form id="new-comment">
-  <h3>Create New Comment</h4>
+{{> comments post.comments}}
 
-  <input name="post-id" type="text" value="{{post.id}}" />
-
-  <label for="comment-body" class="">Comment</label>
-  <textarea name="comment-body" ></textarea>
-
-  <button type="submit">Submit</button>
-</form>
-</div>
+{{#if loggedIn}}
+<script src="/javascript/comment.js"></script>
+<script src="/javascript/upvote.js"></script>
+{{/if}}
