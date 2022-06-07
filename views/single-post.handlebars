@@ -1,0 +1,34 @@
+<div class="psot">
+<section>
+
+  <h2>{{post.title}}</h2>
+  <div>
+    <p>Posted By {{post.User.username}} on {{format_date post.createdAt}}</p>
+    <p>{{post.body}}</p>
+  </div>
+
+</section>
+
+{{#if post.Comments}}
+<section>
+  <h3>Comments</h3>
+  <div>
+    {{#each post.Comments}}
+    <p>{{body}}</p>
+    <p>{{User.username}}, {{format_date createdAt}}</p>
+  </div>
+    {{/each}}
+</section>
+{{/if}}
+
+<form id="new-comment">
+  <h3>Create New Comment</h4>
+
+  <input name="post-id" type="text" value="{{post.id}}" />
+
+  <label for="comment-body" class="">Comment</label>
+  <textarea name="comment-body" ></textarea>
+
+  <button type="submit">Submit</button>
+</form>
+</div>
