@@ -11,10 +11,10 @@ const sequelize = process.env.JAWSDB_URL
   port: 3306
 });
 
-sequelize.authenticate().then(() => {
-  console.log("connection successful!");
-}).catch((err) => {
-  console.log(":( NO success connecting to db!");
-});
+// sequelize.authenticate().then(() => {
+//   console.log("connection successful!");
+// }).catch((err) => {
+//   console.log(":( NO success connecting to db!");
+// });
 
 module.exports = sequelize;
