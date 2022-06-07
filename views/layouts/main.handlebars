@@ -16,13 +16,13 @@
 
   <nav class="border-2 flex justify-center items-center px-4 gap-2">
 
-    {{!-- {{#if loggedIn}} --}}
+    {{#if loggedIn}}
     <a class="text-green-600 text-bold" href="/">Home</a>
     <a class="text-green-600 text-bold" href="/dashboard">Dashboard</a>
     <a class="text-green-600 text-bold" href="#" id="log-out">Logout</a>
-    {{!-- {{else}} --}}
+    {{else}}
     <a class="text-green-600 text-bold" href="/login">Login</a>
-    {{!-- {{/if}} --}}
+    {{/if}}
     
   </nav>
 </header>
@@ -31,6 +31,10 @@
   {{{body}}}
 </main>
 
+
+{{#if loggedIn}}
+<script src="/public/js/logout.js"></script> 
+{{/if}}
+
 </body>
 </html>
-<script src="/public/js/logout.js"></script> 
