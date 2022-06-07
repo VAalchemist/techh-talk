@@ -1,37 +1,20 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <!-- Tailwind API -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" />
-  <title>Techh Talk</title>
-</head>
 
-<body>
-  
+<section>
 
-  <nav class="border-2 border-black p-4 flex items-center justify-between justify-center px-4 gap-2">    
-    <h1><a href="/">Let's Talk Tech</a></h1>
-    {{!-- {{#if loggedIn}} --}}
-    <a class="text-green-600 text-bold" href="/">Home</a>
-    <a class="text-green-600 text-bold" href="/dashboard">Dashboard</a>
-    <a class="text-green-600 text-bold" href="#" id="log-out">Logout</a>    
-  </nav>
-<header class="">
-    <h1><a href="/dashboard" class="border-4 p-2">Your Dashboard</a></h1>
-  
-</header>
+<div><a href="/dashboard/add-post">Add</a></div>
 
-<main class="border-4 border-red-500">
-  {{{body}}}
-</main>
+{{#if posts.length}}
+<div>
+  <h2>Your Creations</h2>
+{{#each posts as |post|}}
+  <ul>
+    <li>
+      {{> post-info post}}
+      <a href="/dashboard/edit/{{post.id}}" class="">Edit</a>
+    </li>
+{{/each}}
+  </ul>
+</div>
+{{/if}}
 
-<footer>
-  <a href="/dashboard/new">Write About It</a>
-</footer>
-
-<script src="/public/js/logout.js"></script>
-</body>
-</html>
+</section>

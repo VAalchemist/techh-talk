@@ -19,7 +19,7 @@
     {{#if loggedIn}}
     <a class="text-green-600 text-bold" href="/">Home</a>
     <a class="text-green-600 text-bold" href="/dashboard">Dashboard</a>
-    <a class="text-green-600 text-bold" href="#" id="log-out">Logout</a>
+    <a class="text-green-600 text-bold" href="#" id="logout">Logout</a>
     {{else}}
     <a class="text-green-600 text-bold" href="/login">Login</a>
     {{/if}}
@@ -31,6 +31,11 @@
   {{{body}}}
 </main>
 
+
+<footer class=" text-blue-800 text-xs flex justify-between p-2">
+  <h2 class="">Made with 🦾</h2>
+  <p class="">&copy; 2022 Code Conjuror</p>
+</footer>
 
 {{#if loggedIn}}
 <script src="/public/js/logout.js"></script> 
