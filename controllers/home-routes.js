@@ -4,7 +4,24 @@ const { Post, User, Comment } = require("../models");
 //GET all posts
 router.get("/", (req, res) => {
   Post.findAll({
-    include: [User]
+    attributes: [
+      'id',
+      'title',
+      'createdAt'
+    ],
+    include: [{
+      model: Comments,
+      attributes: ['id', 'commentText', 'postId', 'userId', 'createdAt'],
+      include: {
+        model: User,
+        attributes: ['username']
+      }
+    },
+      {
+        model: User,
+        attributes: ['username']
+      }
+    ]
   })
     .then((dbPostData) => {
       const posts = dbPostData.map((post) => post.get({ plain: true }));
@@ -26,7 +43,7 @@ router.get("/post/:id", (req, res) => {
     include: [
       User,
       {
-        model: Comment,
+        model: Comments,
         include: [User]
       },
     ],
