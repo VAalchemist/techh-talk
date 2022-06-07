@@ -25,7 +25,7 @@ router.post('/', (req, res) => {
 });
 
 
-// Get user by id
+
 router.get('/login', (req, res) => {
   User.findOne({
     where: {
@@ -70,7 +70,7 @@ router.post('/logout', (req, res) => {
   }
 });
 
-//DELETE user
+// DELETE /api/users/1
 router.delete('/user/:id', (req, res) => {
   User.destroy({
     where: {

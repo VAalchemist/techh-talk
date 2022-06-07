@@ -5,18 +5,18 @@ const sequelize = require('../config/connection');
 class Comments extends Model {}
 
 //create fields(columns) for Comment model
-Comments.init({
-  body: {
-    type: DataTypes.STRING,
-    allowNull: false
-  }  
-},
-  {
-    sequelize,
-    freezeTableName: true,
-    underscored: true,
-    modelName: 'comment'
-});
+// Comments.init({
+//   body: {
+//     type: DataTypes.STRING,
+//     allowNull: false
+//   }  
+// },
+//   {
+//     sequelize,
+//     freezeTableName: true,
+//     underscored: true,
+//     modelName: 'comment'
+// });
 
 
 
