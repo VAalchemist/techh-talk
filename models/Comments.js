@@ -2,19 +2,22 @@ const { Model, DataTypes } = require('sequelize');
 const sequelize = require('../config/connection');
 
 
-class Comment extends Model {}
+class Comments extends Model {}
 
 //create fields(columns) for Comment model
-Comment.init({
+Comments.init({
   body: {
     type: DataTypes.STRING,
     allowNull: false
   }  
 },
   {
-  sequelize,
+    sequelize,
+    freezeTableName: true,
+    underscored: true,
+    modelName: 'comment'
 });
 
 
 
-module.exports = Comment;
+module.exports = Comments;
