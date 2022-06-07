@@ -1,17 +1,18 @@
 const router = require('express').Router();
-const { Post, User, Comment } = require('../../models');
+const { Post } = require('../../models');
 const withAuth = require('../../utils/auth');
 
 
 //POST
 router.post('/', withAuth, (req, res) => {
-  const body = req.body;
-  console.log(req.session.userId);
+  console.log("creating post...");
 
-  Post.create({...body, userId: req.session.userId})
-    .then(dbPostData => {
-      res.json(dbPostData);
-    })
+  Post.create({
+    title: req.body.title,
+    content: req.body.content,
+    userId: req.session.userId
+  })
+    .then(dbPostData => res.json(dbPostData))
     .catch(err => {
       console.log(err);
       res.status(500).json(err);
@@ -19,9 +20,13 @@ router.post('/', withAuth, (req, res) => {
 });
 
 
-//PUT
+//PUT to update
 router.put('/:id', withAuth, (req, res) => {
-  Post.update(req.body, {
+  Post.update({
+    title: req.body.title,
+    content: req.body
+  },
+    {
       where: {
         id: req.params.id
       }

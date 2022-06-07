@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { Post } = require('../models');
+const { Post, Comments, User } = require('../models');
 const withAuth = require('../utils/auth');
 
 
@@ -12,6 +12,24 @@ router.get('/', withAuth, (req, res) => {
     where: {
       userId: req.session.userId
     },
+    attributes: [
+      'id',
+      'title',
+      'createdAt'
+    ],
+    include: [{
+      model: Comments,
+      attributes: ['id', 'commentText', 'postId', 'userId', 'createdAt'],
+      include: {
+        model: User,
+        attributes: ['username']
+      }
+    },
+      {
+        model: User,
+        attributes: ['username']
+      }
+    ]
   })
     .then(dbPostData => {
       const posts = dbPostData.map((post) => post.get({ plain: true }));
@@ -23,7 +41,7 @@ router.get('/', withAuth, (req, res) => {
     })
     .catch(err => {
       console.log(err);
-      res.redirect("login");
+      res.status(500).json(err);
     });
 });
 
@@ -37,7 +55,30 @@ router.get('/new', withAuth, (req, res) => {
 
 
 router.get('/edit/:id', withAuth, (req, res) => {
-  Post.findByPk(req.params.id)
+  Post.findByPk({
+    where: {
+      id: req.params.id
+    },
+    attributes: [
+      'id',
+      'title',
+      'body',
+      'createAt'
+    ],
+    include: [{
+      model: Comments,
+      attributes: ['id', 'commentText', 'postId', 'userId', 'createdAt'],
+      include: {
+        model: User,
+        attributes: ['username']
+      }
+    },
+      {
+        model: User,
+        attributes: ['username']
+      }
+    ]
+  })
     .then(dbPostData => {
       if (dbPostData) {
         const post = dbPostData.get({ plain: true });
