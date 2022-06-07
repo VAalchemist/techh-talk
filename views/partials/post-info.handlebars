@@ -1,0 +1,13 @@
+<article class="">
+
+<div>
+  <a href="/post/{{id}}" target="_blank">{{title}}</a>
+  <p>({{post_text}})</p>
+</div>
+
+<div>
+  <p>{{vote_count}} {{format_plural "point" vote_count}} by {{User.username}} on {{format_date created_at}}</p>
+  <a href="/post/{{id}}">{{comments.length}} {{format_plural "comment" comments.length}}</a>
+</div>
+
+</article>

@@ -16,9 +16,7 @@ const sess = {
   resave: false,
   saveUninitialized: true,
   store: new SequelizeStore({
-    db: sequelize,
-    checkExpirationInterval: 1000 * 60 * 10, // check every 10 minutes
-    expiration: 1000 * 60 * 30 // expire after 30 minutes
+    db: sequelize
     })
 };
 
@@ -37,13 +35,12 @@ app.use(logger('dev'));
 
 // Express middleware
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-
+app.use(express.urlencoded({ extended: false })); //true?
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(require('./controllers/'));
 
 // turn on connection to db and server
 sequelize.sync({ force: true }).then(() => {
-  app.listen(PORT, () => console.log('We out here on port ${PORT}!'));
+  app.listen(PORT, () => console.log(`We out here on port ${PORT}!`));
 });

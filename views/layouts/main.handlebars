@@ -8,23 +8,38 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" />
   <title>Techh Talk</title>
 </head>
-<body>
 
-<header>
+
+<body>
+<header class="border-2 border-black p-4 flex items-center justify-between">
   <h1><a href="/">Let's Talk Tech</a></h1>
 
-  <nav>
-    <a href="/home">Home</a>
-    <button id="logout">Logout</button>
-    <a href="/login">Login</a>
+  <nav class="border-2 flex justify-center items-center px-4 gap-2">
+
+    {{#if loggedIn}}
+    <a class="text-green-600 text-bold" href="/">Home</a>
+    <a class="text-green-600 text-bold" href="/dashboard">Dashboard</a>
+    <a class="text-green-600 text-bold" href="#" id="logout">Logout</a>
+    {{else}}
+    <a class="text-green-600 text-bold" href="/login">Login</a>
+    {{/if}}
+    
   </nav>
 </header>
 
-<main>
+<main class="border-4 border-red-500 p-28 mt-16 mx-6">
   {{{body}}}
 </main>
 
 
-  
+<footer class=" text-blue-800 text-xs flex justify-between p-2">
+  <h2 class="">Made with 🦾</h2>
+  <p class="">&copy; 2022 Code Conjuror</p>
+</footer>
+
+{{#if loggedIn}}
+<script src="/public/js/logout.js"></script> 
+{{/if}}
+
 </body>
 </html>
