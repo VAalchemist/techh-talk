@@ -10,11 +10,11 @@
 </head>
 
 
-<body>
-<header class="border-2 border-black p-4 flex items-center justify-between">
+<body class="bg-gradient-to-r from-blue-400 to-gray-700">
+<header class=" border-2 border-black p-4 flex items-center justify-between">
   <h1><a href="/">Let's Talk Tech</a></h1>
 
-  <nav class="border-2 flex justify-center items-center px-4 gap-2">
+  <nav class=" border-b-2 border-l-2 rounded-lg flex justify-center items-center px-4 gap-2">
 
     {{#if loggedIn}}
     <a class="text-green-600 text-bold" href="/">Home</a>
@@ -27,12 +27,12 @@
   </nav>
 </header>
 
-<main class="border-4 border-red-500 p-28 mt-16 mx-6">
+<main class=" w-full h-full p-28 mt-16 mx-6">
   {{{body}}}
 </main>
 
 
-<footer class=" text-blue-800 text-xs flex justify-between p-2">
+<footer class=" text-pink-200 text-xs flex justify-between p-2">
   <h2 class="">Made with 🦾</h2>
   <p class="">&copy; 2022 Code Conjuror</p>
 </footer>
