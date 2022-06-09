@@ -22,7 +22,7 @@
 
 
 # Image
-<img src="public/" width="500" height="280">
+<img src="public/assets/snap.PNG" width="500" height="280">
 
 # Deployed Link
 * <a href="https://techh-talk.herokuapp.com/">Check out Techh Talk!</a>
